@@ -50,6 +50,7 @@ app.post("/generate-resume", async (req, res) => {
     const readStream = fs.createReadStream(pdfPath);
     readStream.pipe(res);
   } catch (err) {
+    console.error("Error generating resume:", err.message);
     res.status(500).send("Error generating resume.");
   }
 });
