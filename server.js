@@ -27,8 +27,9 @@ app.post("/generate-resume", async (req, res) => {
   try {
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      timeout: 60000
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--use-gl=egl'],
+      ignoreHTTPSErrors: true,
+      timeout: 60000,
     });
     const page = await browser.newPage();
 
@@ -50,7 +51,7 @@ app.post("/generate-resume", async (req, res) => {
     const readStream = fs.createReadStream(pdfPath);
     readStream.pipe(res);
   } catch (err) {
-    console.error("Error generating resume:", err.message);
+    console.log(err.message)
     res.status(500).send("Error generating resume.");
   }
 });
