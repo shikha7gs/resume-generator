@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Generator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Resume Generator</h1>
+    <button id="loadSampleBtn">Load Sample Data</button>
+    <form id="resumeForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="contact">Contact Info:</label>
+      <input type="text" id="contact" name="contact" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="website">Website:</label>
+      <input type="url" id="website" name="website" required>
+
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" required></textarea>
+
+      <label for="imageUrl">Profile Image URL:</label>
+      <input type="url" id="imageUrl" name="imageUrl">
+
+      <label for="summary">Summary:</label>
+      <textarea id="summary" name="summary" required></textarea>
+
+      <label for="education">Education:</label>
+      <div id="education" class="section-input">
+        <input type="text" placeholder="Degree" name="degree[]" required>
+        <input type="text" placeholder="Institution" name="institution[]" required>
+        <input type="text" placeholder="Start Year" name="startYear[]" required>
+        <input type="text" placeholder="End Year" name="endYear[]" required>
+        <textarea placeholder="Details" name="educationDetails[]" required></textarea>
+      </div>
+
+      <label for="experience">Work Experience:</label>
+      <div id="experience" class="section-input">
+        <input type="text" placeholder="Position" name="position[]" required>
+        <input type="text" placeholder="Company" name="company[]" required>
+        <input type="text" placeholder="Start Year" name="expStartYear[]" required>
+        <input type="text" placeholder="End Year" name="expEndYear[]" required>
+        <textarea placeholder="Details" name="experienceDetails[]" required></textarea>
+      </div>
+
+      <label for="skills">Skills:</label>
+      <textarea id="skills" name="skills" required></textarea>
+
+      <label for="templateSelection">Select Template:</label>
+      <div id="templateSelection" class="template-selection">
+        <div class="template-option" data-template="template1">
+          <img src="resume-1.png" alt="Template 1">
+          <p>Template 1</p>
+        </div>
+        <div class="template-option" data-template="template2">
+          <img src="resume-2.png" alt="Template 2">
+          <p>Template 2</p>
+        </div>
+        <div class="template-option" data-template="template3">
+          <img src="resume-3.png" alt="Template 3">
+          <p>Template 3</p>
+        </div>
+      </div>
+
+      <button type="submit">Generate Resume</button>
+    </form>
+  </div>
+
+  <script>
+    let selectedTemplate = 'template1';
+
+    document.querySelectorAll('.template-option').forEach(option => {
+      option.addEventListener('click', function() {
+        selectedTemplate = this.getAttribute('data-template');
+        document.querySelectorAll('.template-option').forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        const imgSrc = this.querySelector('img').src;
+        window.open(imgSrc, '_blank');
+      });
+    });
+
+    document.getElementById('resumeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        name: document.getElementById('name').value,
+        contact: document.getElementById('contact').value,
+        email: document.getElementById('email').value,
+        website: document.getElementById('website').value,
+        address: document.getElementById('address').value,
+        imageUrl: document.getElementById('imageUrl').value,
+        summary: document.getElementById('summary').value,
+        education: Array.from(document.querySelectorAll('input[name="degree[]"]')).map((input, index) => ({
+          degree: input.value,
+          institution: document.querySelectorAll('input[name="institution[]"]')[index].value,
+          startYear: document.querySelectorAll('input[name="startYear[]"]')[index].value,
+          endYear: document.querySelectorAll('input[name="endYear[]"]')[index].value,
+          details: document.querySelectorAll('textarea[name="educationDetails[]"]')[index].value,
+        })),
+        experience: Array.from(document.querySelectorAll('input[name="position[]"]')).map((input, index) => ({
+          position: input.value,
+          company: document.querySelectorAll('input[name="company[]"]')[index].value,
+          startYear: document.querySelectorAll('input[name="expStartYear[]"]')[index].value,
+          endYear: document.querySelectorAll('input[name="expEndYear[]"]')[index].value,
+          details: document.querySelectorAll('textarea[name="experienceDetails[]"]')[index].value,
+        })),
+        skills: document.getElementById('skills').value.split(',').map(skill => skill.trim()),
+        selectedTemplate: selectedTemplate
+      };
+
+      const response = await fetch('/generate-resume', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'resume.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else {
+        alert('Failed to generate resume.');
+      }
+    });
+
+    document.getElementById('loadSampleBtn').addEventListener('click', () => {
+      document.getElementById('name').value = "John Doe";
+      document.getElementById('contact').value = "+1234567890";
+      document.getElementById('email').value = "john.doe@example.com";
+      document.getElementById('website').value = "https://johndoe.com";
+      document.getElementById('address').value = "123 Main St, Anytown, USA";
+      document.getElementById('imageUrl').value = "https://th.bing.com/th/id/OIP.nMLvSM1x4RxpyhMwkgDVxQHaE8?w=280&h=187&c=7&r=0&o=5&pid=1.7";
+      document.getElementById('summary').value = "A highly motivated software engineer with experience in building scalable web applications.";
+
+      const educationSection = document.getElementById('education');
+      educationSection.innerHTML = `
+        <input type="text" placeholder="Degree" name="degree[]" value="B.Sc. in Computer Science" required>
+        <input type="text" placeholder="Institution" name="institution[]" value="University of Example" required>
+        <input type="text" placeholder="Start Year" name="startYear[]" value="2015" required>
+        <input type="text" placeholder="End Year" name="endYear[]" value="2019" required>
+        <textarea placeholder="Details" name="educationDetails[]" required>Graduated with honors</textarea>
+      `;
+
+      const experienceSection = document.getElementById('experience');
+      experienceSection.innerHTML = `
+        <input type="text" placeholder="Position" name="position[]" value="Software Engineer" required>
+        <input type="text" placeholder="Company" name="company[]" value="Tech Solutions Inc." required>
+        <input type="text" placeholder="Start Year" name="expStartYear[]" value="2019" required>
+        <input type="text" placeholder="End Year" name="expEndYear[]" value="2023" required>
+        <textarea placeholder="Details" name="experienceDetails[]" required>Developed web applications and tools</textarea>
+      `;
+
+      document.getElementById('skills').value = "JavaScript, HTML, CSS, React, Node.js";
+    });
+  </script>
+</body>
+</html>
