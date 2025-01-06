@@ -1,19 +1,19 @@
 {
-  "name": "resume-generator",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-  "start": "node server.js",
-  "postinstall": "npx puppeteer install --chrome"
-}
+    "name": "resume-generator",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "node server.js",
+        "postinstall": "npx puppeteer install --chrome"
+    },
 
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "express": "^4.21.2",
-    "handlebars": "^4.7.8",
-    "puppeteer": "^23.11.1"
-  }
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "express": "^4.21.2",
+        "handlebars": "^4.7.8",
+        "puppeteer": "^23.11.1"
+    }
 }
