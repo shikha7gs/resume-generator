@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{name}} - Resume</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfdfd;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      margin-right: 20px;
+      object-fit: cover;
+    }
+
+    .header div {
+      flex: 1;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #3498db;
+    }
+
+    .header p {
+      margin: 5px 0;
+      font-size: 1rem;
+      color: #7f8c8d;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      color: #3498db;
+      text-transform: uppercase;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+    }
+
+    .section-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .education-item, .experience-item {
+      width: calc(50% - 20px);
+      background-color: #ecf0f1;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .education-item strong, .experience-item strong {
+      font-size: 1.2rem;
+    }
+
+    .skills-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+    }
+
+    .skills-list span {
+      display: inline-block;
+      background-color: #3498db;
+      color: #fff;
+      padding: 8px;
+      text-align: center;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="{{imageUrl}}" alt="Profile Picture">
+      <div>
+        <h1>{{name}}</h1>
+        <p>{{contact}} | {{email}} | {{website}}</p>
+        <p>{{address}}</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>About Me</h2>
+      <p>{{summary}}</p>
+    </div>
+
+    <div class="section">
+      <h2>Education</h2>
+      <div class="section-content">
+        {{#each education}}
+        <div class="education-item">
+          <p><strong>{{degree}}</strong></p>
+          <p>{{institution}}</p>
+          <p>{{startYear}} - {{endYear}}</p>
+          <p>{{details}}</p>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Experience</h2>
+      <div class="section-content">
+        {{#each experience}}
+        <div class="experience-item">
+          <p><strong>{{position}}</strong></p>
+          <p>{{company}}</p>
+          <p>{{startYear}} - {{endYear}}</p>
+          <p>{{details}}</p>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Skills</h2>
+      <div class="skills-list">
+        {{#each skills}}
+        <span>{{this}}</span>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

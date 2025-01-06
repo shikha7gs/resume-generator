@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{name}} - Professional Resume</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: #444;
+      background-color: #e9ecef;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    .header div {
+      flex: 1;
+    }
+
+    .header h1 {
+      margin: 0;
+      color: #007bff;
+      font-size: 2.5rem;
+    }
+
+    .header p {
+      margin: 5px 0;
+      font-size: 1rem;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      font-size: 1.6rem;
+      color: #007bff;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .section ul li {
+      margin-bottom: 10px;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .skills span {
+      background-color: #f1f1f1;
+      color: #333;
+      padding: 8px 12px;
+      border-radius: 15px;
+      margin: 5px;
+      font-size: 0.9rem;
+    }
+
+    .education, .experience {
+      border-left: 3px solid #007bff;
+      padding-left: 15px;
+    }
+
+    .education p, .experience p {
+      margin: 0;
+    }
+
+    .education strong, .experience strong {
+      font-size: 1.1rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="{{imageUrl}}" alt="Profile Picture">
+      <div>
+        <h1>{{name}}</h1>
+        <p>{{contact}} | {{email}} | {{website}}</p>
+        <p>{{address}}</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>About Me</h2>
+      <p>{{summary}}</p>
+    </div>
+
+    <div class="section">
+      <h2>Education</h2>
+      <div class="education">
+        {{#each education}}
+        <p><strong>{{degree}}</strong> - {{institution}}</p>
+        <p>{{startYear}} - {{endYear}}</p>
+        <p>{{details}}</p>
+        <br>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Work Experience</h2>
+      <div class="experience">
+        {{#each experience}}
+        <p><strong>{{position}}</strong> at {{company}}</p>
+        <p>{{startYear}} - {{endYear}}</p>
+        <p>{{details}}</p>
+        <br>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Skills</h2>
+      <div class="skills">
+        {{#each skills}}
+        <span>{{this}}</span>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</body>
+</html>
